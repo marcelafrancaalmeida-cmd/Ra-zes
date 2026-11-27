@@ -69,6 +69,23 @@ b,strong{font-weight:700}
 .seta.prev{left:.8rem}.seta.next{right:.8rem}
 
 /* oferta */
+.personalize{background:var(--papel)}
+.personalize .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.personalize h2{font-size:clamp(2.6rem,6vw,4.4rem);max-width:12ch}
+.personalize p{max-width:34ch;margin:1.2rem 0 1.8rem;font-size:1.2rem}
+.personalize .nota-foto{font-size:.95rem;margin:.9rem 0 0}
+.personalize .btn:focus-within{outline:3px solid var(--vermelho);outline-offset:3px}
+.sr{position:absolute;opacity:0;width:1px;height:1px;overflow:hidden}
+.livro-3d{position:relative;width:min(320px,100%);aspect-ratio:3/4;margin:0 auto;transform:rotate(-2deg)}
+.livro-3d .paginas{position:absolute;inset:8px -12px -10px 6px;border-radius:4px 12px 12px 4px;background:repeating-linear-gradient(180deg,#f4ecdd 0 3px,#d9ccb4 3px 4px);box-shadow:0 26px 40px rgba(115,1,5,.35)}
+.livro-3d .capa-dura{position:absolute;inset:0;border-radius:6px 14px 14px 6px;background:linear-gradient(90deg,rgba(0,0,0,.4),rgba(0,0,0,0) 5%,rgba(255,255,255,.12) 7%,rgba(0,0,0,.18) 8.5%,rgba(0,0,0,0) 12%),linear-gradient(135deg,rgba(255,255,255,.1),rgba(0,0,0,.15)),var(--vermelho);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.6rem 1.4rem 1.6rem 2.4rem;color:var(--amarelo)}
+.titulo-capa{font-family:var(--titulo);font-size:2.4rem;line-height:1;text-shadow:0 1px 0 rgba(0,0,0,.45)}
+.sub-capa{font-family:var(--script);font-size:1.25rem;line-height:1.1;margin:.2rem 0 1rem}
+.moldura-foto{flex:1;width:100%;border:3px solid var(--amarelo);border-radius:999px 999px 10px 10px;overflow:hidden;position:relative;background:rgba(244,236,221,.1);display:grid;place-items:center}
+.moldura-foto span{font-family:var(--script);font-size:2.2rem;color:var(--papel)}
+.moldura-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.moldura-foto img[hidden]{display:none}
+@media (max-width:820px){.personalize .wrap{grid-template-columns:1fr;gap:2.5rem}.personalize .copy{text-align:center}.personalize h2,.personalize p{margin-inline:auto}}
 .oferta{background:var(--amarelo)}
 .card{background:var(--vermelho);color:var(--papel);border-radius:999px 999px 28px 28px;padding:clamp(6.5rem,16vw,9.5rem) clamp(1.6rem,6vw,4.5rem) clamp(3rem,6vw,4rem);max-width:760px;margin-inline:auto;text-align:center;box-shadow:0 24px 50px rgba(115,1,5,.35)}
 .card h2{font-size:clamp(2.4rem,6vw,3.6rem);max-width:11ch;margin-inline:auto}
@@ -148,14 +165,33 @@ footer p{margin:.6rem 0 0}
   </div>
 </section>
 
+<section class="personalize" id="personalize">
+  <div class="wrap">
+    <div class="copy">
+      <h2>Personalize a capa com a sua foto</h2>
+      <p>No livro físico, você pode personalizar a capa com uma foto sua. Capa dura vermelha, com a sua história estampada.</p>
+      <label class="btn"><input class="sr" type="file" accept="image/*" id="foto">Testar com a minha foto</label>
+      <p class="nota-foto">A foto aparece só aqui, no seu aparelho.</p>
+    </div>
+    <div class="livro-3d" aria-label="Simulação do livro Raízes com capa dura vermelha e foto personalizada">
+      <div class="paginas"></div>
+      <div class="capa-dura">
+        <div class="titulo-capa">Raízes</div>
+        <div class="sub-capa">tempero que ultrapassa gerações</div>
+        <div class="moldura-foto"><span id="foto-rotulo">sua foto</span><img id="foto-capa" alt="Sua foto na capa do livro" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="oferta" id="oferta">
   <div class="wrap">
     <div class="card">
       <h2>Tudo que você terá acesso</h2>
       <ul>
         <li>Livro físico com 15 receitas exclusivas e autorais</li>
-          <li>Foto de capa personalizada com a sua foto</li>
-          <li>Página em branco para você escrever a sua receita</li>
+        <li>Foto personalizada na capa: você pode escolher uma foto sua para a capa do livro</li>
+        <li>Página em branco no final do livro para você acrescentar a receita que a sua mãe fez e que mais te marcou</li>
         <li>Comunidade no Facebook com atualizações frequentes de receitas, interação com outros membros leitores e possibilidade de compartilhar suas receitas</li>
       </ul>
       <p class="preco"><small>R$</small>99</p>
@@ -184,6 +220,8 @@ footer p{margin:.6rem 0 0}
   document.querySelector('.seta.prev').addEventListener('click',function(){passo(-1)});
   document.querySelector('.seta.next').addEventListener('click',function(){passo(1)});
   t.addEventListener('keydown',function(e){if(e.key==='ArrowRight')passo(1);if(e.key==='ArrowLeft')passo(-1)});
+  var f=document.getElementById('foto');
+  f.addEventListener('change',function(){var a=f.files&&f.files[0];if(!a)return;var i=document.getElementById('foto-capa');i.src=URL.createObjectURL(a);i.hidden=false;document.getElementById('foto-rotulo').hidden=true;});
   var b=document.getElementById('edit'),on=false;
   b.addEventListener('click',function(){
     on=!on;document.designMode=on?'on':'off';
